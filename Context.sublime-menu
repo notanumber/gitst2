@@ -1,0 +1,9 @@
+[
+    { "caption": "-" },
+    { "caption": "Git Commit...", "command": "git_commit" },
+    { "caption": "Git Add", "command": "git_add" },
+    { "caption": "Git Remove", "command": "git_rm" },
+    { "caption": "-" },
+    { "caption": "Git Status", "command": "git_status" },
+    { "caption": "Git Diff", "command": "git_diff" }
+]
