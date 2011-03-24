@@ -19,6 +19,7 @@ class GitCommandBase(sublime_plugin.WindowCommand):
 
         stdout = p.stdout
         stderr = p.stderr
+
         return '\n'.join([stdout.read(), stderr.read()])
 
     def show_results(self, results):
