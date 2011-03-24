@@ -1,0 +1,13 @@
+#GitST2
+A plugin to add Git command support to Sublime Text 2
+
+##WARNING
+This is a **work in progress**.  I take no responsibility for data loss.  You have been warned!
+
+That said, I would appreciate any feedback and suggestions on how to make this plugin better.  Patches and pull requests are welcome.
+
+##Installation
+Copy or checkout the `gitst2` project folder to your `Sublime Text 2\Packages\` folder.
+
+##Keymaps
+Keymaps are only provided for OSX at this time.  Others are on the TODO list, if there's interest or feel free to fork this code and add them.
