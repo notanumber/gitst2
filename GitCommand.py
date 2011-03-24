@@ -45,8 +45,9 @@ class GitDiffCommand(GitCommandBase):
         self.show_results(self.exec_command('git diff'))
 
 
-# class GitCommitCommand(GitCommand):
-#     command_string = 'git commit'
+class GitCommitCommand(GitCommand):
+    def run(self):
+        self.show_results(self.exec_command('git commit'))
 
 # class GitAddCommand(GitCommand):
 #     command_string = 'git add "%s"' % str(self.view.fileName())
