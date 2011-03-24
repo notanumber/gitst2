@@ -5,23 +5,24 @@ import sublime
 import sublime_plugin
 
 
-def exec_command(command_string):
-    p = subprocess.Popen(command_string, shell=True, bufsize=1024, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.wait()
+class GitCommandBase(sublime_plugin.WindowCommand):
+    def __init__(self, *args, **kwargs):
+        super(GitCommandBase, self).__init__(*args, **kwargs)
+        
+        self.folder_name = os.path.dirname(self.window.active_view().file_name())
 
-    stdout = p.stdout
-    stderr = p.stderr
-    return [stdout.read(), stderr.read()]
+        os.chdir(self.folder_name)
 
 
-class GitStatusCommand(sublime_plugin.WindowCommand):
-    def run(self):
-        folder_name = os.path.dirname(self.window.active_view().file_name())
+    def exec_command(self, command_string):
+        p = subprocess.Popen(command_string, shell=True, bufsize=1024, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p.wait()
 
-        os.chdir(folder_name)
+        stdout = p.stdout
+        stderr = p.stderr
+        return [stdout.read(), stderr.read()]
 
-        results = exec_command('git status')
-
+    def show_results(self, results):
         self.output_view = self.window.get_output_panel('git')
         self.window.get_output_panel('git')
         self.window.run_command('show_panel', {'panel': 'output.git'})
@@ -32,6 +33,11 @@ class GitStatusCommand(sublime_plugin.WindowCommand):
         self.output_view.insert(edit, self.output_view.size(), '\n'.join(results))
         self.output_view.end_edit(edit)
         self.output_view.set_read_only(True)
+
+
+class GitStatusCommand(GitCommandBase):
+    def run(self):
+        self.show_results(self.exec_command('git status'))
 
 
 # class GitCommitCommand(GitCommand):
