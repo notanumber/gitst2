@@ -8,7 +8,7 @@ import sublime_plugin
 class GitCommandBase(sublime_plugin.WindowCommand):
     def __init__(self, *args, **kwargs):
         super(GitCommandBase, self).__init__(*args, **kwargs)
-        
+
         self.folder_name = os.path.dirname(self.window.active_view().file_name())
 
         os.chdir(self.folder_name)
@@ -38,6 +38,11 @@ class GitCommandBase(sublime_plugin.WindowCommand):
 class GitStatusCommand(GitCommandBase):
     def run(self):
         self.show_results(self.exec_command('git status'))
+
+
+class GitDiffCommand(GitCommandBase):
+    def run(self):
+        self.show_results(self.exec_command('git diff'))
 
 
 # class GitCommitCommand(GitCommand):
