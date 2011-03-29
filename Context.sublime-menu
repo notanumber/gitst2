@@ -1,12 +1,19 @@
 [
     { "caption": "-" },
-    { "caption": "Git Commit...", "command": "git_commit" },
-    { "caption": "Git Add", "command": "git_add" },
-    { "caption": "Git Reset", "command": "git_reset" },    
-    { "caption": "Git Remove", "command": "git_rm" },
-    { "caption": "-" },
-    { "caption": "Git Status", "command": "git_status" },
-    { "caption": "Git Diff", "command": "git_diff" },
-    { "caption": "-" },
-    { "caption": "Git Init...", "command": "git_init" }
+    {
+        "caption": "Git",
+        "children":
+        [
+            { "caption": "-" },
+            { "caption": "Commit...", "command": "git_commit" },
+            { "caption": "Add", "command": "git_add" },
+            { "caption": "Reset", "command": "git_reset" },    
+            { "caption": "Remove", "command": "git_rm" },
+            { "caption": "-" },
+            { "caption": "Status", "command": "git_status" },
+            { "caption": "Diff", "command": "git_diff" },
+            { "caption": "-" },
+            { "caption": "Init...", "command": "git_init" }
+        ]
+    }
 ]

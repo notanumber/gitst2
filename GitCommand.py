@@ -60,6 +60,18 @@ class GitAddCommand(sublime_plugin.TextCommand):
         show_results(self.view.window(), cmd)
 
 
+class GitRmCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.view.file_name()))
+        return os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
+    def run(self, edit):
+        cmd = 'git rm %s' % self.view.file_name()
+        os.chdir(os.path.dirname(self.view.file_name()))
+        exec_command(cmd)
+        show_results(self.view.window(), cmd)
+
+
 class GitResetCommand(sublime_plugin.TextCommand):
     def is_enabled(self, *args):
         os.chdir(os.path.dirname(self.view.file_name()))
