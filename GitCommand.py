@@ -71,4 +71,23 @@ class GitCommitCommand(sublime_plugin.WindowCommand):
             pass
     
     def run(self):
-        self.window.show_input_panel("Commit Message:", "", self.on_done, None, None)
+        self.window.show_input_panel('Commit Message:', '', self.on_done, None, None)
+
+
+class GitInitInFolderCommand(sublime_plugin.TextCommand):
+    def run(self, edit, folder):
+        os.chdir(folder)
+        show_results(self.view.window(), exec_command('git init'))
+
+
+class GitInitCommand(sublime_plugin.WindowCommand):
+    def on_done(self, text):
+        try:
+            if self.window.active_view():
+                self.window.active_view().run_command('git_init_in_folder', {'folder': text})
+        except ValueError:
+            pass
+    
+    def run(self):
+        folder_name = os.path.dirname(self.window.active_view().file_name())
+        self.window.show_input_panel('Project Folder:', folder_name, self.on_done, None, None)

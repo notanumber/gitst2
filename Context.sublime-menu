@@ -6,5 +6,7 @@
     { "caption": "Git Remove", "command": "git_rm" },
     { "caption": "-" },
     { "caption": "Git Status", "command": "git_status" },
-    { "caption": "Git Diff", "command": "git_diff" }
+    { "caption": "Git Diff", "command": "git_diff" },
+    { "caption": "-" },
+    { "caption": "Git Init...", "command": "git_init" }
 ]

@@ -13,7 +13,9 @@
                     { "caption": "Remove", "command": "git_rm" },
                     { "caption": "-" },
                     { "caption": "Status", "command": "git_status" },
-                    { "caption": "Diff", "command": "git_diff" }
+                    { "caption": "Diff", "command": "git_diff" },
+                    { "caption": "-" },
+                    { "caption": "Init...", "command": "git_init" }
                 ]
             }
         ]
