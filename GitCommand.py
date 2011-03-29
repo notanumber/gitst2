@@ -29,18 +29,30 @@ def show_results(window, results):
 
 
 class GitStatusCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.view.file_name()))
+        return os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
     def run(self, edit):
         os.chdir(os.path.dirname(self.view.file_name()))
         show_results(self.view.window(), exec_command('git status'))
 
 
 class GitDiffCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.view.file_name()))
+        return os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
     def run(self, edit):
         os.chdir(os.path.dirname(self.view.file_name()))
         show_results(self.view.window(), exec_command('git diff'))
 
 
 class GitAddCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.view.file_name()))
+        return os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
     def run(self, edit):
         cmd = 'git add %s' % self.view.file_name()
         os.chdir(os.path.dirname(self.view.file_name()))
@@ -49,6 +61,10 @@ class GitAddCommand(sublime_plugin.TextCommand):
 
 
 class GitResetCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.view.file_name()))
+        return os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
     def run(self, edit):
         cmd = 'git reset HEAD %s' % self.view.file_name()
         os.chdir(os.path.dirname(self.view.file_name()))
@@ -57,12 +73,20 @@ class GitResetCommand(sublime_plugin.TextCommand):
 
 
 class GitCommitWithMessageCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.view.file_name()))
+        return os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
     def run(self, edit, message):
         os.chdir(os.path.dirname(self.view.file_name()))
         show_results(self.view.window(), exec_command('git commit -m "%s"' % message.replace('"', '\"')))
 
 
 class GitCommitCommand(sublime_plugin.WindowCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.window.active_view().file_name()))
+        return os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
     def on_done(self, text):
         try:
             if self.window.active_view():
@@ -75,12 +99,20 @@ class GitCommitCommand(sublime_plugin.WindowCommand):
 
 
 class GitInitInFolderCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.view.file_name()))
+        return os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
     def run(self, edit, folder):
         os.chdir(folder)
         show_results(self.view.window(), exec_command('git init'))
 
 
 class GitInitCommand(sublime_plugin.WindowCommand):
+    def is_enabled(self, *args):
+        os.chdir(os.path.dirname(self.window.active_view().file_name()))
+        return not os.system('git rev-parse 2> /dev/null > /dev/null') == 0
+
     def on_done(self, text):
         try:
             if self.window.active_view():
