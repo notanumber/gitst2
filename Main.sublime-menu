@@ -14,6 +14,8 @@
                     { "caption": "-" },
                     { "caption": "Status", "command": "git_status" },
                     { "caption": "Diff", "command": "git_diff" },
+                    { "caption": "Log", "command": "git_log" },
+                    { "caption": "Tag...", "command": "git_tag" },
                     { "caption": "-" },
                     { "caption": "Init...", "command": "git_init" }
                 ]

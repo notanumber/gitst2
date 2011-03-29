@@ -4,5 +4,6 @@
     { "keys": ["ctrl+super+t"], "command": "git_reset"},
     { "keys": ["ctrl+super+r"], "command": "git_rm"},
     { "keys": ["ctrl+super+d"], "command": "git_diff"},
-    { "keys": ["ctrl+super+s"], "command": "git_status"}
+    { "keys": ["ctrl+super+s"], "command": "git_status"},
+    { "keys": ["ctrl+super+l"], "command": "git_log"}
 ]
