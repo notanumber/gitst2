@@ -15,18 +15,6 @@ def exec_command(command_string):
     return '\n'.join([stdout.read(), stderr.read()])
 
 
-def show_results(window, results):
-    output_view = window.get_output_panel('git')
-    window.run_command('show_panel', {'panel': 'output.git'})
-    output_view.set_read_only(False)
-
-    edit = output_view.begin_edit()
-
-    output_view.insert(edit, output_view.size(), results)
-    output_view.end_edit(edit)
-    output_view.set_read_only(True)
-
-
 class GitTextCommandBase(sublime_plugin.TextCommand):
     def is_enabled(self, *args):
         file_name = self.view.file_name()
@@ -50,49 +38,76 @@ class GitWindowCommandBase(sublime_plugin.WindowCommand):
 class GitStatusCommand(GitTextCommandBase):
     def run(self, edit):
         os.chdir(os.path.dirname(self.view.file_name()))
-        show_results(self.view.window(), exec_command('git status'))
+
+        results = exec_command('git status')
+        window = self.view.window()
+        view = window.get_output_panel('git')
+        edit = view.begin_edit()
+
+        view.set_read_only(False)
+        view.insert(edit, view.size(), results)
+        view.end_edit(edit)
+        view.set_read_only(True)
+
+        window.run_command('show_panel', {'panel': 'output.git'})
 
 
 class GitDiffCommand(GitTextCommandBase):
     def run(self, edit):
         os.chdir(os.path.dirname(self.view.file_name()))
-        show_results(self.view.window(), exec_command('git diff'))
+
+        results = exec_command('git diff')
+        window = self.view.window()
+        view = self.view.window().new_file()
+        edit = view.begin_edit()
+
+        view.set_scratch(True)
+        view.set_name('%s.diff' % os.path.basename(self.view.file_name()))
+        view.set_syntax_file('Packages/Diff/Diff.tmLanguage')
+
+        view.insert(edit, 0, results)
+        view.end_edit(edit)
 
 
 class GitAddCommand(GitTextCommandBase):
     def run(self, edit):
-        cmd = 'git add %s' % self.view.file_name()
         os.chdir(os.path.dirname(self.view.file_name()))
-        exec_command(cmd)
-        show_results(self.view.window(), cmd)
+        print exec_command('git add %s' % self.view.file_name())
 
 
 class GitRmCommand(GitTextCommandBase):
     def run(self, edit):
-        cmd = 'git rm %s' % self.view.file_name()
         os.chdir(os.path.dirname(self.view.file_name()))
-        exec_command(cmd)
-        show_results(self.view.window(), cmd)
+        print exec_command('git rm %s' % self.view.file_name())
 
 
 class GitResetCommand(GitTextCommandBase):
     def run(self, edit):
-        cmd = 'git reset HEAD %s' % self.view.file_name()
         os.chdir(os.path.dirname(self.view.file_name()))
-        exec_command(cmd)
-        show_results(self.view.window(), cmd)
+        print exec_command('git reset HEAD %s' % self.view.file_name())
 
 
 class GitLogCommand(GitTextCommandBase):
     def run(self, edit):
         os.chdir(os.path.dirname(self.view.file_name()))
-        show_results(self.view.window(), exec_command('git log'))
+
+        results = exec_command('git log')
+        window = self.view.window()
+        view = window.get_output_panel('git')
+        edit = view.begin_edit()
+
+        view.set_read_only(False)
+        view.insert(edit, view.size(), results)
+        view.end_edit(edit)
+        view.set_read_only(True)
+
+        window.run_command('show_panel', {'panel': 'output.git'})
 
 
 class GitCommitWithMessageCommand(GitTextCommandBase):
     def run(self, edit, message):
         os.chdir(os.path.dirname(self.view.file_name()))
-        show_results(self.view.window(), exec_command('git commit -m "%s"' % message.replace('"', '\"')))
+        print exec_command('git commit -m "%s"' % message.replace('"', '\"'))
 
 
 class GitCommitCommand(GitWindowCommandBase):
@@ -110,7 +125,7 @@ class GitCommitCommand(GitWindowCommandBase):
 class GitTagWithNameCommand(GitTextCommandBase):
     def run(self, edit, tag):
         os.chdir(os.path.dirname(self.view.file_name()))
-        show_results(self.view.window(), exec_command('git tag %s' % tag))
+        print exec_command('git tag %s' % tag)
 
 
 class GitTagCommand(GitWindowCommandBase):
@@ -131,7 +146,7 @@ class GitInitInFolderCommand(GitTextCommandBase):
 
     def run(self, edit, folder):
         os.chdir(folder)
-        show_results(self.view.window(), exec_command('git init'))
+        print exec_command('git init')
 
 
 class GitInitCommand(GitWindowCommandBase):
