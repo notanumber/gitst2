@@ -8,6 +8,7 @@
                 "children":
                 [
                     { "caption": "Commit...", "command": "git_commit" },
+                    { "caption": "Commit All...", "command": "git_commit_all" },
                     { "caption": "-" },
                     { "caption": "Checkout...", "command": "git_checkout" },
                     { "caption": "Add", "command": "git_add" },
