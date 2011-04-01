@@ -8,16 +8,39 @@
                 "children":
                 [
                     { "caption": "Commit...", "command": "git_commit" },
-                    { "caption": "Add", "command": "git_add" },
-                    { "caption": "Reset", "command": "git_reset" },
-                    { "caption": "Remove", "command": "git_rm" },
                     { "caption": "-" },
-                    { "caption": "Status", "command": "git_status" },
+                    { "caption": "Checkout...", "command": "git_checkout" },
+                    { "caption": "Add", "command": "git_add" },
+                    { "caption": "Delete", "command": "git_rm" },
+                    { "caption": "Delete (keep local)", "command": "git_rm_keep_local" },
+                    { "caption": "Rename...", "command": "git_mv" },
+                    { "caption": "-" },
                     { "caption": "Diff", "command": "git_diff" },
                     { "caption": "Log", "command": "git_log" },
+                    { "caption": "Status", "command": "git_status" },
+                    { "caption": "-" },
+                    { "caption": "Pull...", "command": "git_pull" },
+                    { "caption": "Fetch...", "command": "git_fetch" },
+                    { "caption": "Push...", "command": "git_push" },
+                    { "caption": "Rebase...", "command": "git_rebase" },
+                    { "caption": "-" },
                     { "caption": "Tag...", "command": "git_tag" },
                     { "caption": "-" },
-                    { "caption": "Init...", "command": "git_init" }
+                    {
+                        "caption": "Stash",
+                        "children":
+                        [
+                            { "caption": "Save", "command": "git_stash_save" },
+                            { "caption": "Apply", "command": "git_stash_apply" },
+                            { "caption": "Pop", "command": "git_stash_pop" },
+                            { "caption": "List", "command": "git_stash_list" },
+                            { "caption": "Clear", "command": "git_stash_clear" }
+                        ]
+                    },
+                    { "caption": "-" },
+                    { "caption": "Init...", "command": "git_init" },
+                    { "caption": "-" },
+                    { "caption": "Settings...", "command": "git_settings" }
                 ]
             }
         ]
