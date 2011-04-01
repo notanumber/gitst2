@@ -71,18 +71,18 @@ class GitDiffCommand(GitTextCommandBase):
 
 class GitAddCommand(GitTextCommandBase):
     def run(self, edit):
-        self.exec_command('git add %s' % self.file_name)
-        self.show_output('Added %s' % self.file_name)
+        self.exec_command('git add "%s"' % self.file_name)
+        self.show_output('Added "%s"' % self.file_name)
 
 
 class GitRmCommand(GitTextCommandBase):
     def run(self, edit):
-        self.show_output(self.exec_command('git rm %s' % self.file_name))
+        self.show_output(self.exec_command('git rm "%s"' % self.file_name))
 
 
 class GitResetCommand(GitTextCommandBase):
     def run(self, edit):
-        self.show_output(self.exec_command('git reset HEAD %s' % self.file_name))
+        self.show_output(self.exec_command('git reset HEAD "%s"' % self.file_name))
 
 
 class GitLogCommand(GitTextCommandBase):
