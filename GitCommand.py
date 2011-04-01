@@ -43,7 +43,7 @@ class GitTextCommandBase(sublime_plugin.TextCommand):
 
     def is_enabled(self, *args):
         if self.folder_name:
-            p = subprocess.Popen('git rev-parse 2> /dev/null > /dev/null', cwd=self.folder_name, shell=True)
+            p = subprocess.Popen('git rev-parse HEAD > /dev/null > /dev/null', cwd=self.folder_name, shell=True)
             return p.wait() == 0
         else:
             return False
