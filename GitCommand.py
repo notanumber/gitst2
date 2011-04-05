@@ -95,6 +95,23 @@ class GitCommitWithMessageCommand(GitTextCommandBase):
         self.show_output(self.exec_command('git commit -m "%s"' % message.replace('"', '\"')))
 
 
+class GitCommitAllWithMessageCommand(GitTextCommandBase):
+    def run(self, edit, message):
+        self.show_output(self.exec_command('git commit -am "%s"' % message.replace('"', '\"')))
+
+
+class GitCommitAll(GitTextCommandBase):
+    def on_done(self, text):
+        try:
+            if self.view:
+                self.view.run_command('git_commit_all_with_message', {'message': text})
+        except ValueError:
+            pass
+
+    def run(self, edit):
+        self.view.window().show_input_panel('Commit Message:', '', self.on_done, None, None)
+
+
 class GitCommitCommand(GitTextCommandBase):
     def on_done(self, text):
         try:
