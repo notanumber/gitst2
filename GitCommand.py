@@ -59,17 +59,14 @@ class GitCommitAllCommand(GitTextCommandBase):
     def on_done(self, text):
         try:
             if self.view:
-                self.view.run_command('git_commit_all_with_message', {'message': text})
+                self.view.run_command(
+                    'git_commit_with_message', {'message': text, 'extra_flags': 'a'}
+                )
         except ValueError:
             pass
 
     def run(self, edit):
         self.view.window().show_input_panel('Commit Message:', '', self.on_done, None, None)
-
-
-class GitCommitAllWithMessageCommand(GitTextCommandBase):
-    def run(self, edit, message):
-        self.show_output(self.exec_command('git commit -am "%s"' % message.replace('"', '\"')))
 
 
 class GitCommitCommand(GitTextCommandBase):
@@ -85,8 +82,12 @@ class GitCommitCommand(GitTextCommandBase):
 
 
 class GitCommitWithMessageCommand(GitTextCommandBase):
-    def run(self, edit, message):
-        self.show_output(self.exec_command('git commit -m "%s"' % message.replace('"', '\"')))
+    def run(self, edit, message, extra_flags=''):
+        self.show_output(
+            self.exec_command(
+                'git commit -%sm "%s"' % (extra_flags, message.replace('"', '\"'))
+            )
+        )
 
 
 class GitDiffCommand(GitTextCommandBase):
