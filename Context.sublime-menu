@@ -10,7 +10,6 @@
             { "caption": "Checkout...", "command": "git_checkout" },
             { "caption": "Add", "command": "git_add" },
             { "caption": "Remove", "command": "git_rm" },
-            { "caption": "Remove (keep local)", "command": "git_rm_keep_local" },
             { "caption": "Rename...", "command": "git_mv" },
             { "caption": "-" },
             { "caption": "Diff", "command": "git_diff" },
