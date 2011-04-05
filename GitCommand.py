@@ -49,9 +49,44 @@ class GitTextCommandBase(sublime_plugin.TextCommand):
             return False
 
 
-class GitStatusCommand(GitTextCommandBase):
+class GitAddCommand(GitTextCommandBase):
     def run(self, edit):
-        self.show_output(self.exec_command('git status'))
+        self.exec_command('git add "%s"' % self.file_name)
+        self.show_output('Added "%s"' % self.file_name)
+
+
+class GitCommitAllCommand(GitTextCommandBase):
+    def on_done(self, text):
+        try:
+            if self.view:
+                self.view.run_command('git_commit_all_with_message', {'message': text})
+        except ValueError:
+            pass
+
+    def run(self, edit):
+        self.view.window().show_input_panel('Commit Message:', '', self.on_done, None, None)
+
+
+class GitCommitAllWithMessageCommand(GitTextCommandBase):
+    def run(self, edit, message):
+        self.show_output(self.exec_command('git commit -am "%s"' % message.replace('"', '\"')))
+
+
+class GitCommitCommand(GitTextCommandBase):
+    def on_done(self, text):
+        try:
+            if self.view:
+                self.view.run_command('git_commit_with_message', {'message': text})
+        except ValueError:
+            pass
+    
+    def run(self, edit):
+        self.view.window().show_input_panel('Commit Message:', '', self.on_done, None, None)
+
+
+class GitCommitWithMessageCommand(GitTextCommandBase):
+    def run(self, edit, message):
+        self.show_output(self.exec_command('git commit -m "%s"' % message.replace('"', '\"')))
 
 
 class GitDiffCommand(GitTextCommandBase):
@@ -69,81 +104,9 @@ class GitDiffCommand(GitTextCommandBase):
         view.end_edit(edit)
 
 
-class GitAddCommand(GitTextCommandBase):
-    def run(self, edit):
-        self.exec_command('git add "%s"' % self.file_name)
-        self.show_output('Added "%s"' % self.file_name)
-
-
-class GitRmCommand(GitTextCommandBase):
-    def run(self, edit):
-        self.show_output(self.exec_command('git rm "%s"' % self.file_name))
-
-
-class GitResetCommand(GitTextCommandBase):
-    def run(self, edit):
-        self.show_output(self.exec_command('git reset HEAD "%s"' % self.file_name))
-
-
 class GitLogCommand(GitTextCommandBase):
     def run(self, edit):
         self.show_output(self.exec_command('git log'))
-
-
-class GitCommitWithMessageCommand(GitTextCommandBase):
-    def run(self, edit, message):
-        self.show_output(self.exec_command('git commit -m "%s"' % message.replace('"', '\"')))
-
-
-class GitCommitAllWithMessageCommand(GitTextCommandBase):
-    def run(self, edit, message):
-        self.show_output(self.exec_command('git commit -am "%s"' % message.replace('"', '\"')))
-
-
-class GitCommitAll(GitTextCommandBase):
-    def on_done(self, text):
-        try:
-            if self.view:
-                self.view.run_command('git_commit_all_with_message', {'message': text})
-        except ValueError:
-            pass
-
-    def run(self, edit):
-        self.view.window().show_input_panel('Commit Message:', '', self.on_done, None, None)
-
-
-class GitCommitCommand(GitTextCommandBase):
-    def on_done(self, text):
-        try:
-            if self.view:
-                self.view.run_command('git_commit_with_message', {'message': text})
-        except ValueError:
-            pass
-    
-    def run(self, edit):
-        self.view.window().show_input_panel('Commit Message:', '', self.on_done, None, None)
-
-
-class GitTagWithNameCommand(GitTextCommandBase):
-    def run(self, edit, tag):
-        self.show_output(self.exec_command('git tag %s' % tag))
-
-
-class GitTagCommand(GitTextCommandBase):
-    def on_done(self, text):
-        try:
-            if self.view:
-                self.view.run_command('git_tag_with_name', {'tag': text})
-        except ValueError:
-            pass
-    
-    def run(self, edit):
-        self.view.window().show_input_panel('Tag Name:', '', self.on_done, None, None)
-
-
-class GitInitInFolderCommand(GitTextCommandBase):
-    def run(self, edit, folder):
-        self.show_output(self.exec_command('git init', cwd=folder))
 
 
 class GitInitCommand(GitTextCommandBase):
@@ -160,3 +123,43 @@ class GitInitCommand(GitTextCommandBase):
     
     def run(self, edit):
         self.view.window().show_input_panel('Project Folder:', self.folder_name, self.on_done, None, None)
+
+
+class GitInitInFolderCommand(GitTextCommandBase):
+    def run(self, edit, folder):
+        self.show_output(self.exec_command('git init', cwd=folder))
+
+
+class GitResetCommand(GitTextCommandBase):
+    def run(self, edit):
+        self.show_output(self.exec_command('git reset HEAD "%s"' % self.file_name))
+
+
+class GitRmCommand(GitTextCommandBase):
+    def run(self, edit):
+        self.show_output(self.exec_command('git rm "%s"' % self.file_name))
+
+
+class GitStatusCommand(GitTextCommandBase):
+    def run(self, edit):
+        self.show_output(self.exec_command('git status'))
+
+
+class GitTagCommand(GitTextCommandBase):
+    def on_done(self, text):
+        try:
+            if self.view:
+                self.view.run_command('git_tag_with_name', {'tag': text})
+        except ValueError:
+            pass
+    
+    def run(self, edit):
+        self.view.window().show_input_panel('Tag Name:', '', self.on_done, None, None)
+
+
+class GitTagWithNameCommand(GitTextCommandBase):
+    def run(self, edit, tag):
+        self.show_output(self.exec_command('git tag %s' % tag))
+
+
+
