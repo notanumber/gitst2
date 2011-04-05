@@ -52,7 +52,7 @@ class GitTextCommandBase(sublime_plugin.TextCommand):
 class GitAddCommand(GitTextCommandBase):
     def run(self, edit):
         self.exec_command('git add "%s"' % self.file_name)
-        self.show_output('Added "%s"' % self.file_name)
+        sublime.status_message('Added "%s"' % self.file_name)
 
 
 class GitCommitAllCommand(GitTextCommandBase):
