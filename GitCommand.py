@@ -101,6 +101,7 @@ class GitCheckoutCommand(sublime_plugin.TextCommand):
             folder_name = os.path.dirname(self.view.file_name())
 
         self.view.window().run_command('exec', {'cmd': ['git', 'checkout', branch_or_path], 'working_dir': folder_name, 'quiet': True})
+        self.view.run_command('revert')
 
 
 class GitCommitCommand(sublime_plugin.TextCommand):
@@ -289,6 +290,19 @@ class GitStatusCommand(sublime_plugin.TextCommand):
             folder_name = os.path.dirname(self.view.file_name())
 
         self.view.window().run_command('exec', {'cmd': ['git', 'status'], 'working_dir': folder_name, 'quiet': True})
+
+
+class GitBlameCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        if self.view.file_name():
+            return True
+        return False
+    
+    def run(self, edit):
+        if self.view.file_name():
+            folder_name, file_name = os.path.split(self.view.file_name())
+
+        self.view.window().run_command('exec', {'cmd': ['git', 'blame', file_name], 'working_dir': folder_name, 'quiet': True})
 
 
 class GitTagCommand(sublime_plugin.TextCommand):
