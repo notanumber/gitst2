@@ -305,6 +305,88 @@ class GitBlameCommand(sublime_plugin.TextCommand):
         self.view.window().run_command('exec', {'cmd': ['git', 'blame', file_name], 'working_dir': folder_name, 'quiet': True})
 
 
+class GitBlameCommand(sublime_plugin.TextCommand, ProcessListener):
+    def run(self, edit, encoding='utf-8', kill=False):
+        if kill:
+            if self.proc:
+                self.proc.kill()
+                self.proc = None
+            return
+
+        if self.view.file_name():
+            folder_name, file_name = os.path.split(self.view.file_name())
+
+        if not hasattr(self, 'output_view'):
+            self.output_view = self.view.window().new_file()
+
+        self.encoding = encoding
+        self.proc = None
+
+        self.output_view.set_scratch(True)
+
+        os.chdir(folder_name)
+
+        err_type = OSError
+        if os.name == "nt":
+            err_type = WindowsError
+
+        try:
+            self.proc = AsyncProcess(['git', 'blame', file_name], self)
+        except err_type as e:
+            self.append_data(None, str(e) + '\n')
+
+    def is_enabled(self, kill=False):
+        if kill:
+            return hasattr(self, 'proc') and self.proc and self.proc.poll()
+        else:
+            return True
+
+    def append_data(self, proc, data):
+        if proc != self.proc:
+            # a second call to exec has been made before the first one
+            # finished, ignore it instead of intermingling the output.
+            if proc:
+                proc.kill()
+            return
+
+        try:
+            str = data.decode(self.encoding)
+        except:
+            str = '[Decode error - output not ' + self.encoding + ']'
+            proc = None
+
+        # Normalize newlines, Sublime Text always uses a single \n separator
+        # in memory.
+        str = str.replace('\r\n', '\n').replace('\r', '\n')
+
+        selection_was_at_end = (len(self.output_view.sel()) == 1
+            and self.output_view.sel()[0]
+                == sublime.Region(self.output_view.size()))
+        self.output_view.set_read_only(False)
+        edit = self.output_view.begin_edit()
+        self.output_view.insert(edit, self.output_view.size(), str)
+        if selection_was_at_end:
+            self.output_view.show(self.output_view.size())
+        self.output_view.end_edit(edit)
+        self.output_view.set_read_only(True)
+
+    def finish(self, proc):
+        if proc != self.proc:
+            return
+
+        # Set the selection to the start, so that next_result will work as expected
+        edit = self.output_view.begin_edit()
+        self.output_view.sel().clear()
+        self.output_view.sel().add(sublime.Region(0))
+        self.output_view.end_edit(edit)
+
+    def on_data(self, proc, data):
+        sublime.set_timeout(functools.partial(self.append_data, proc, data), 0)
+
+    def on_finished(self, proc):
+        sublime.set_timeout(functools.partial(self.finish, proc), 0)
+
+
 class GitTagCommand(sublime_plugin.TextCommand):
     def run(self, edit, tag_name=''):
         if not tag_name:
