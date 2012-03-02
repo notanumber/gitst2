@@ -6,5 +6,6 @@
     { "keys": ["ctrl+super+d"], "command": "git_diff"},
     { "keys": ["ctrl+super+s"], "command": "git_status"},
     { "keys": ["ctrl+super+l"], "command": "git_log"},
-    { "keys": ["ctrl+super+b"], "command": "git_blame"}
+    { "keys": ["ctrl+super+b"], "command": "git_blame"},
+    { "keys": ["ctrl+super+f"], "command": "git_fetch"}
 ]

@@ -42,7 +42,8 @@
                     { "caption": "-" },
                     { "caption": "Init...", "command": "git_init" },
                     { "caption": "-" },
-                    { "caption": "Settings...", "command": "git_settings" }
+                    { "caption": "Settings...", "command": "git_settings" },
+                    { "caption": "Fetch", "command": "git_fetch" }
                 ]
             }
         ]

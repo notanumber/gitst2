@@ -399,3 +399,15 @@ class GitTagCommand(sublime_plugin.TextCommand):
             folder_name = os.path.dirname(self.view.file_name())
 
         self.view.window().run_command('exec', {'cmd': ['git', 'tag', tag_name], 'working_dir': folder_name, 'quiet': True})
+
+class GitFetchCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        if self.view.file_name():
+            return True
+        return False
+    
+    def run(self, edit):
+        if self.view.file_name():
+            folder_name = os.path.dirname(self.view.file_name())
+
+        self.view.window().run_command('exec', {'cmd': ['git', 'fetch'], 'working_dir': folder_name, 'quiet': False})
