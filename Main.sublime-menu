@@ -43,7 +43,9 @@
                     { "caption": "Init...", "command": "git_init" },
                     { "caption": "-" },
                     { "caption": "Settings...", "command": "git_settings" },
-                    { "caption": "Fetch", "command": "git_fetch" }
+                    { "caption": "Fetch", "command": "git_fetch" },
+                    { "caption": "Pull", "command": "git_pull" },
+                    { "caption": "Push", "command": "git_push" }
                 ]
             }
         ]

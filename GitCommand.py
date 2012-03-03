@@ -411,3 +411,27 @@ class GitFetchCommand(sublime_plugin.TextCommand):
             folder_name = os.path.dirname(self.view.file_name())
 
         self.view.window().run_command('exec', {'cmd': ['git', 'fetch'], 'working_dir': folder_name, 'quiet': False})
+
+class GitPullCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        if self.view.file_name():
+            return True
+        return False
+    
+    def run(self, edit):
+        if self.view.file_name():
+            folder_name = os.path.dirname(sself.view.file_name())
+
+        self.view.window().run_command('exec', {'cmd': ['git', 'pull'], 'working_dir': folder_name, 'quiet': False})
+
+class GitPushCommand(sublime_plugin.TextCommand):
+    def is_enabled(self, *args):
+        if self.view.file_name():
+            return True
+        return False
+    
+    def run(self, edit):
+        if self.view.file_name():
+            folder_name = os.path.dirname(self.view.file_name())
+
+        self.view.window().run_command('exec', {'cmd': ['git', 'push'], 'working_dir': folder_name, 'quiet': False})
