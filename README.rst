@@ -2,6 +2,8 @@
 GitST2 -- Git support in Sublime Text 2
 =======================================
 
+THIS PROJECT IS NO LONGER IN DEVELOPMENT. - Sublime Text 3 includes built-in support for Git: https://www.sublimetext.com/docs/3/git_integration.html
+
 Overview
 --------
 This plugin adds basic Git support to Sublime Text 2 through a collection of commands, menus and shortcut keys.
